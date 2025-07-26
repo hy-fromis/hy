@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>오늘 할 일</title>
+  <style>
+    body {
+      background: #f2f4f8;
+      font-family: 'Segoe UI', 'Noto Sans KR', sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .todo-container {
+      background: white;
+      width: 100%;
+      max-width: 500px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    form {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #43a047;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+      background: #f9f9f9;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+      transition: background 0.3s;
+    }
+
+    li.completed {
+      background: #e0e0e0;
+      text-decoration: line-through;
+      color: #777;
+    }
+
+    li input[type="checkbox"] {
+      margin-right: 12px;
+      transform: scale(1.2);
+      cursor: pointer;
+    }
+
+    li span {
+      flex: 1;
+      font-size: 16px;
+    }
+
+    .delete-btn {
+      background: transparent;
+      border: none;
+      color: #e74c3c;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      form {
+        flex-direction: column;
+      }
+
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="todo-container">
+    <h1>📝 오늘 할 일</h1>
+    <form id="todo-form">
+      <input type="text" id="todo-input" placeholder="할 일을 입력하세요..." required />
+      <button type="submit">생성</button>
+    </form>
+    <ul id="todo-list"></ul>
+  </div>
+
+  <script>
+    const form = document.getElementById('todo-form');
+    const input = document.getElementById('todo-input');
+    const list = document.getElementById('todo-list');
+
+    let todos = [];
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const text = input.value.trim();
+      if (text !== '') {
+        const todo = {
+          text: text,
+          completed: false
+        };
+        todos.push(todo);
+        input.value = '';
+        renderTodos();
+      }
+    });
+
+    function renderTodos() {
+      list.innerHTML = '';
+      todos.forEach((todo, index) => {
+        const li = document.createElement('li');
+        li.classList.toggle('completed', todo.completed);
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.checked = todo.completed;
+        checkbox.addEventListener('change', () => {
+          todo.completed = checkbox.checked;
+          renderTodos();
+        });
+
+        const span = document.createElement('span');
+        span.textContent = todo.text;
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.textContent = '제거';
+        deleteBtn.className = 'delete-btn';
+        deleteBtn.addEventListener('click', () => {
+          todos.splice(index, 1);
+          renderTodos();
+        });
+
+        li.appendChild(checkbox);
+        li.appendChild(span);
+        li.appendChild(deleteBtn);
+        list.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
