@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>오늘 할 일</title>
+  <title>투두 리스트</title>
   <style>
     body {
       background: #f2f4f8;
@@ -95,8 +95,10 @@
       font-weight: bold;
       font-size: 16px;
       cursor: pointer;
+      padding: 4px 8px;
     }
 
+    /* ✅ 모바일 최적화 개선 */
     @media (max-width: 600px) {
       form {
         flex-direction: column;
@@ -104,6 +106,19 @@
 
       button {
         width: 100%;
+      }
+
+      li span {
+        font-size: 17px;
+      }
+
+      .delete-btn {
+        font-size: 14px;
+        padding: 2px 6px;
+      }
+
+      li {
+        padding: 12px 10px;
       }
     }
   </style>
